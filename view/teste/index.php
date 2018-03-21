@@ -1,0 +1,3 @@
+Incluindo
+<?=$nome; ?>
+<?=$teste; ?>

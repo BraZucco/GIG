@@ -1,0 +1,3 @@
+Create
+<?=$nome; ?>
+<?=$teste; ?>
