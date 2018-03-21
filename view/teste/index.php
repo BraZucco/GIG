@@ -1,3 +1,5 @@
 Incluindo
 <?=$nome; ?>
-<?=$teste; ?>
+<?php
+print_r($teste);
+?>

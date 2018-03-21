@@ -2,6 +2,7 @@
 
 namespace Controller;
 use Core;
+use Model;
 
 Class Teste extends \Core\Controller {
     public function __construct() {
@@ -20,26 +21,40 @@ Class Teste extends \Core\Controller {
     }
 
     public function get() {
+        $model = new Model\Teste();
+        
+
         $data['nome'] = 'teste';
-        $data['teste'] = 'get';
+        $data['teste'] = $model->select();
         $this->load->view('teste/index', $data);
     }
 
-    public function put() {
+    public function put($id) {
+        $u = json_decode(file_get_contents('php://input'));
+        $model = new Model\Teste();
+        $model->update($id,$u);
+
+
         $data['nome'] = 'teste';
         $data['teste'] = 'put';
         $this->load->view('teste/index', $data);
     }
 
     public function post() {
-        echo file_get_contents('php://input');
+        $u = json_decode(file_get_contents('php://input'));
+        
+        $model = new Model\Teste();
+        $model->insert($u);
+
         $data['nome'] = 'teste';
         $data['teste'] = 'post';
         $this->load->view('teste/index', $data);
     }
 
 
-    public function delete() {
+    public function delete($id) {
+        $model = new Model\Teste();
+        $model->delete($id);
         $data['nome'] = 'teste';
         $data['teste'] = 'delete';
         $this->load->view('teste/index', $data);

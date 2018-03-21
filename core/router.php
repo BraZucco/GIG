@@ -19,10 +19,11 @@ class Router {
             $this->setController($this->getDefaultController());
         }
 
-
+        /*
         if(isset($arrPath[1])) {
             $this->setMethod($arrPath[1]);
         } else {
+            */
             $method = '';
             switch($_SERVER['REQUEST_METHOD']) {
                 case 'GET' : $method = 'get'; break;
@@ -33,10 +34,10 @@ class Router {
             }
             echo $method;
             $this->setMethod($method);
-        }
+        //}
         
         unset($arrPath[0]);
-        unset($arrPath[1]);
+        //unset($arrPath[1]);
         $this->setParameters($arrPath);
 
         $co = '\Controller\\'.ucfirst($this->getController());

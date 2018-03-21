@@ -9,9 +9,9 @@ Abstract Class Controller {
 
     
     abstract public function get();
-    abstract public function put();
+    abstract public function put($id);
     abstract public function post();
-    abstract public function delete();
+    abstract public function delete($id);
 
     public function __construct() {
         $this->load = new Loader();
