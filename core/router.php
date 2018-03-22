@@ -6,24 +6,23 @@ class Router {
     private $controller;
     private $method;
     private $parameters = array();
-    private $defaultController = 'Teste';
+    private $defaultController = 'Home';
     private $defaultMethod = 'index';
 
     public function __construct() {
         $basePath = str_replace('index.php', '', $_SERVER['SCRIPT_NAME']);
         $arrPath = explode('/',trim(str_replace($basePath, '', $_SERVER['REQUEST_URI']), '/'));
 
-        if(isset($arrPath[1])) {
+        if(isset($arrPath[0]) && !empty($arrPath[0])) {
             $this->setController($arrPath[0]);
         } else {
             $this->setController($this->getDefaultController());
         }
 
-        /*
-        if(isset($arrPath[1])) {
-            $this->setMethod($arrPath[1]);
-        } else {
-            */
+        $co = '\Controller\\'.ucfirst($this->getController());
+        $c = new $co;
+
+        if($c instanceof Rest) {
             $method = '';
             switch($_SERVER['REQUEST_METHOD']) {
                 case 'GET' : $method = 'get'; break;
@@ -32,16 +31,18 @@ class Router {
                 case 'DELETE' : $method = 'delete'; break;
                 default: $method = 'index';
             }
-            echo $method;
             $this->setMethod($method);
-        //}
-        
-        unset($arrPath[0]);
-        //unset($arrPath[1]);
+            unset($arrPath[0]);
+        } else {
+            if(isset($arrPath[1])) {
+                $this->setMethod($arrPath[1]);
+            } else {
+                $this->setMethod($this->getDefaultMethod());
+            }
+            unset($arrPath[0]);
+            unset($arrPath[1]);
+        }
         $this->setParameters($arrPath);
-
-        $co = '\Controller\\'.ucfirst($this->getController());
-        $c = new $co;
         call_user_func_array(array($c, $this->getMethod()), $this->getParameters());
     }
 
