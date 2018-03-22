@@ -23,7 +23,31 @@ var contacts = (function() {
             return false;
         });
         $('#lst-contacts').on('click', '.btn-delete', function(e) {
-            alert($(this).closest('.ctn-card').attr('data-contact-id'));
+            //alert($(this).closest('.ctn-card').attr('data-contact-id'));
+            $.ajax({
+                url: "/GIG/contacts/" + $(this).closest('.ctn-card').attr('data-contact-id'),
+                type:'delete',
+                dataType: 'json'
+            }).done(function() {
+                self.clear();
+                self.get();
+            }).fail(function() {
+                alert( "error" );
+            });
+        });
+
+        $('#lst-contacts').on('click', '.btn-edit', function(e) {
+            //alert($(this).closest('.ctn-card').attr('data-contact-id'));
+            $.ajax({
+                url: "/GIG/contacts/" + $(this).closest('.ctn-card').attr('data-contact-id'),
+                type:'delete',
+                dataType: 'json'
+            }).done(function() {
+                self.clear();
+                self.get();
+            }).fail(function() {
+                alert( "error" );
+            });
         });
     }
 

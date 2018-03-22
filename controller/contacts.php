@@ -20,7 +20,7 @@ Class Contacts extends \Core\Rest {
 
     public function put($id) {
         $u = json_decode(file_get_contents('php://input'));
-        $model = new Model\Teste();
+        $model = new Model\Contacts();
         $model->update($id,$u);
 
 
@@ -40,11 +40,10 @@ Class Contacts extends \Core\Rest {
 
 
     public function delete($id) {
-        $model = new Model\Teste();
+        header('Content-type:application/json;charset=utf-8');
+        $model = new Model\Contacts();
         $model->delete($id);
-        $data['nome'] = 'teste';
-        $data['teste'] = 'delete';
-        $this->load->view('teste/index', $data);
+        echo '{"success": "true"}';
     }
 
 }
