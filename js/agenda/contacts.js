@@ -52,18 +52,6 @@ var contacts = (function() {
             $('#frm-add-contact input[name=age]').val(contact.age);
             $('#frm-add-contact input[name=email]').val(contact.email);
             $('#mdl-add-contact').modal('show');
-            /*
-            $.ajax({
-                url: "/testemadeira/contacts/" + $(this).closest('.ctn-card').attr('data-contact-id'),
-                type:'delete',
-                dataType: 'json'
-            }).done(function() {
-                self.clear();
-                self.get();
-            }).fail(function() {
-                alert( "error" );
-            });
-            */
         });
         $('#mdl-add-contact').bind('hidden.bs.modal', function () {
             var frm;
