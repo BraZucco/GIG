@@ -8,7 +8,7 @@ var contacts = (function() {
             e.preventDefault();
             var frm = $(this);
             $.ajax({
-                url: "/GIG/contacts",
+                url: "/testemadeira/contacts",
                 type:'post',
                 dataType: 'json',
                 data: self.parseForm(frm)
@@ -25,7 +25,7 @@ var contacts = (function() {
         $('#lst-contacts').on('click', '.btn-delete', function(e) {
             //alert($(this).closest('.ctn-card').attr('data-contact-id'));
             $.ajax({
-                url: "/GIG/contacts/" + $(this).closest('.ctn-card').attr('data-contact-id'),
+                url: "/testemadeira/contacts/" + $(this).closest('.ctn-card').attr('data-contact-id'),
                 type:'delete',
                 dataType: 'json'
             }).done(function() {
@@ -39,7 +39,7 @@ var contacts = (function() {
         $('#lst-contacts').on('click', '.btn-edit', function(e) {
             //alert($(this).closest('.ctn-card').attr('data-contact-id'));
             $.ajax({
-                url: "/GIG/contacts/" + $(this).closest('.ctn-card').attr('data-contact-id'),
+                url: "/testemadeira/contacts/" + $(this).closest('.ctn-card').attr('data-contact-id'),
                 type:'delete',
                 dataType: 'json'
             }).done(function() {
@@ -59,7 +59,7 @@ var contacts = (function() {
         var tpl = $('#tpl-card').text(), tmp, ctnCards = $('#lst-contacts');
         
         $.ajax({
-            url: "/GIG/contacts",
+            url: "/testemadeira/contacts",
             context: document.body
         }).done(function(data) {
             for(var contactID in data) {
