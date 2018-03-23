@@ -19,14 +19,11 @@ Class Contacts extends \Core\Rest {
     }
 
     public function put($id) {
+        header('Content-type:application/json;charset=utf-8');
         $u = json_decode(file_get_contents('php://input'));
         $model = new Model\Contacts();
         $model->update($id,$u);
-
-
-        $data['nome'] = 'teste';
-        $data['teste'] = 'put';
-        $this->load->view('teste/index', $data);
+        echo '{"success": "true"}';
     }
 
     public function post() {

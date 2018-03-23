@@ -2,16 +2,21 @@
 
 var contacts = (function() {
     var self = {}, cardTemplate;
+    self.contactsData = [];
 
     self.init = function() {
         $('#frm-add-contact').on('submit', function(e) {
             e.preventDefault();
-            var frm = $(this);
+            var frm = $(this), sendDataSTR, sendDataOBJ, sendType;
+            sendDataSTR = self.parseForm(frm);
+            sendDataOBJ = JSON.parse(sendDataSTR);
+            console.log(sendDataOBJ.id);
+            sendType = (sendDataOBJ.id != '') ? 'put' : 'post';
             $.ajax({
-                url: "/testemadeira/contacts",
-                type:'post',
+                url: "/testemadeira/contacts/" + sendDataOBJ.id,
+                type:sendType,
                 dataType: 'json',
-                data: self.parseForm(frm)
+                data: sendDataSTR
             }).done(function() {
                 $('#mdl-add-contact').modal('hide');
                 frm[0].reset();
@@ -37,7 +42,15 @@ var contacts = (function() {
         });
 
         $('#lst-contacts').on('click', '.btn-edit', function(e) {
-            //alert($(this).closest('.ctn-card').attr('data-contact-id'));
+            var editID = $(this).closest('.ctn-card').attr('data-contact-id'),
+            contact = self.contactsData[editID];
+            $('#frm-add-contact input[name=id]').val(contact.id);
+            $('#frm-add-contact input[name=nome]').val(contact.nome);
+            $('#frm-add-contact input[name=phone]').val(contact.phone);
+            $('#frm-add-contact input[name=age]').val(contact.age);
+            $('#frm-add-contact input[name=email]').val(contact.email);
+            $('#mdl-add-contact').modal('show');
+            /*
             $.ajax({
                 url: "/testemadeira/contacts/" + $(this).closest('.ctn-card').attr('data-contact-id'),
                 type:'delete',
@@ -48,6 +61,11 @@ var contacts = (function() {
             }).fail(function() {
                 alert( "error" );
             });
+            */
+        });
+        $('#mdl-add-contact').bind('hidden.bs.modal', function () {
+            $('#frm-add-contact input[name=id]').val('');
+            $(this).find('form')[0].reset();
         });
     }
 
@@ -62,6 +80,7 @@ var contacts = (function() {
             url: "/testemadeira/contacts",
             context: document.body
         }).done(function(data) {
+            self.contactsData = data;
             for(var contactID in data) {
                 if(data[contactID] != null) {
                     tmp = tpl.replace('{{name}}', data[contactID].nome)

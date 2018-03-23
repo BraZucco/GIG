@@ -10,7 +10,7 @@
             <div class="card contact-card">
             <div class="card-header">
                 <div class="actions">
-                    <button class="btn btn-primary"><i class="fas fa-edit"></i></button>
+                    <button class="btn btn-primary btn-edit"><i class="fas fa-edit"></i></button>
                     <button class="btn btn-danger btn-delete"><i class="fas fa-trash"></i></button>
                 </div>
             </div>
