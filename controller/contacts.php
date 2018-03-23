@@ -22,6 +22,7 @@ Class Contacts extends \Core\Rest {
         header('Content-type:application/json;charset=utf-8');
         $u = json_decode(file_get_contents('php://input'));
         $model = new Model\Contacts();
+        $u->phone = preg_replace("/\D/", '', $u->phone);
         $model->update($id,$u);
         echo '{"success": "true"}';
     }
@@ -31,6 +32,7 @@ Class Contacts extends \Core\Rest {
         $u = json_decode(file_get_contents('php://input'));
         
         $model = new Model\Contacts();
+        $u->phone = preg_replace("/\D/", '', $u->phone);
         $model->insert($u);
         echo '{"success": "true"}';
     }

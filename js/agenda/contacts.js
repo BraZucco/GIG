@@ -7,10 +7,12 @@ var contacts = (function() {
     self.init = function() {
         $('#frm-add-contact').on('submit', function(e) {
             e.preventDefault();
+            if(!self.validateForm($(this))) {
+                return false;
+            }
             var frm = $(this), sendDataSTR, sendDataOBJ, sendType;
             sendDataSTR = self.parseForm(frm);
             sendDataOBJ = JSON.parse(sendDataSTR);
-            console.log(sendDataOBJ.id);
             sendType = (sendDataOBJ.id != '') ? 'put' : 'post';
             $.ajax({
                 url: "/testemadeira/contacts/" + sendDataOBJ.id,
@@ -46,7 +48,7 @@ var contacts = (function() {
             contact = self.contactsData[editID];
             $('#frm-add-contact input[name=id]').val(contact.id);
             $('#frm-add-contact input[name=nome]').val(contact.nome);
-            $('#frm-add-contact input[name=phone]').val(contact.phone);
+            $('#frm-add-contact input[name=phone]').val(contact.phone.replace(/(\d{2})(\d{5})(\d{4})/gi,"($1) $2-$3"));
             $('#frm-add-contact input[name=age]').val(contact.age);
             $('#frm-add-contact input[name=email]').val(contact.email);
             $('#mdl-add-contact').modal('show');
@@ -64,8 +66,11 @@ var contacts = (function() {
             */
         });
         $('#mdl-add-contact').bind('hidden.bs.modal', function () {
+            var frm;
+            frm = $(this).find('form');
             $('#frm-add-contact input[name=id]').val('');
-            $(this).find('form')[0].reset();
+            frm[0].reset();
+            frm.find('.fld-required').removeClass('fld-required');
         });
     }
 
@@ -84,7 +89,7 @@ var contacts = (function() {
             for(var contactID in data) {
                 if(data[contactID] != null) {
                     tmp = tpl.replace('{{name}}', data[contactID].nome)
-                             .replace('{{phone}}', data[contactID].phone)
+                             .replace('{{phone}}', data[contactID].phone.replace(/(\d{2})(\d{5})(\d{4})/gi,"($1) $2-$3"))
                              .replace('{{email}}', data[contactID].email)
                              .replace('{{age}}', data[contactID].age)
                              .replace('{{contact-id}}', data[contactID].id);
@@ -103,6 +108,18 @@ var contacts = (function() {
             data[serialized[s]['name']] = serialized[s]['value']
         }
         return JSON.stringify(data);
+    }
+
+    self.validateForm = function(frm) {
+        var error = false;
+        $(frm).find('.fld-required').removeClass('fld-required');
+        $(frm.find('*[data-required=required]')).each(function() {
+            if($(this).val() == '') {
+                $(this).addClass('fld-required');    
+                error = true;
+            }
+        });
+        return !error;
     }
 
     return self;

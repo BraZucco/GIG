@@ -41,7 +41,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title">
-						<i class="fa fa-user-circle" aria-hidden="true"></i> Gerenciar Locais</h5>
+						<i class="fa fa-user-circle" aria-hidden="true"></i> Adicionar contato</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -59,7 +59,7 @@
                         </label>
 						<label class="col-12">
 							<span>Telefone *</span>
-							<input type="text" name="phone" data-required="required" />
+							<input type="text" name="phone" data-required="required" data-mask="phone" />
                         </label>
                         <label class="col-12">
 							<span>E-mail *</span>
